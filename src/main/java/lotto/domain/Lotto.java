@@ -37,7 +37,7 @@ public class Lotto {
         numbers.stream()
                 .forEach(number -> {
                     if (number < 1 || number > 45) {
-                        throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_RANGE.getErrorMessage());
+                        throw new IllegalArgumentException(ErrorMessage.INVALID_RANGE.getErrorMessage());
                     }
                 });
     }

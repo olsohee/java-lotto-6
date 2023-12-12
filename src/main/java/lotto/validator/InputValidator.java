@@ -3,6 +3,9 @@ package lotto.validator;
 
 import lotto.message.ErrorMessage;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class InputValidator {
 
     private InputValidator() {
@@ -20,7 +23,13 @@ public class InputValidator {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_PURCHASE_PRICE_FORMAT.getErrorMessage());
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_INPUT.getErrorMessage());
         }
+    }
+
+    public List<Integer> getWinningLotto(String input) {
+        return Arrays.stream(input.split(","))
+                .map(inputNumber -> convertStringToInt(inputNumber))
+                .toList();
     }
 }

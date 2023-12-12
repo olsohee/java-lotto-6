@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Randoms;
 import lotto.domain.Lotto;
 import lotto.domain.PurchasePrice;
 import lotto.domain.UserLotto;
+import lotto.domain.WinningLotto;
 import lotto.dto.LottoDto;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Service {
 
     private PurchasePrice purchasePrice;
     private UserLotto userLotto;
+    private WinningLotto winningLotto;
 
     public void createPurchasePrice(int purchasePrice) {
         this.purchasePrice = new PurchasePrice(purchasePrice);
@@ -30,5 +32,13 @@ public class Service {
         return userLotto.getUserLotto().stream()
                 .map(lotto -> new LottoDto(lotto.getNumbers()))
                 .toList();
+    }
+
+    public void createWinningLotto(List<Integer> winningLotto, int bonusNUmber) {
+        this.winningLotto = new WinningLotto(winningLotto, bonusNUmber);
+    }
+
+    public void draw() {
+
     }
 }

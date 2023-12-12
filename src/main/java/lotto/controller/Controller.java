@@ -5,6 +5,9 @@ import lotto.validator.InputValidator;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Controller {
 
     private final InputView inputView;
@@ -21,6 +24,7 @@ public class Controller {
 
     public void start() {
         buyLotto();
+        drawLotto();
     }
 
     private void buyLotto() {
@@ -28,5 +32,14 @@ public class Controller {
         service.createPurchasePrice(purchasePrice);
         service.createUserLotto(purchasePrice);
         outputView.printUserLotto(service.getUserLottoDto());
+    }
+
+    private void drawLotto() {
+        List<Integer> winningLotto = Arrays.stream(inputView.readWinningLotto().split(","))
+                .map(input -> inputValidator.convertStringToInt(input.trim()))
+                .toList();
+        int bonusNumber = inputValidator.convertStringToInt(inputView.readBonusNumber());
+        service.createWinningLotto(winningLotto, bonusNumber);
+        service.draw();
     }
 }
