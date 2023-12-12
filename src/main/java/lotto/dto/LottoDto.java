@@ -7,7 +7,6 @@ public class LottoDto {
 
     public LottoDto(List<Integer> lotto) {
         this.lotto = lotto.stream()
-                .sorted()
                 .map(number -> String.valueOf(number))
                 .toList();
     }
