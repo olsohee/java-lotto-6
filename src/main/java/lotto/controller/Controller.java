@@ -28,19 +28,29 @@ public class Controller {
     }
 
     private void buyLotto() {
-        int purchasePrice = inputValidator.convertStringToInt(inputView.readPurchasePrice());
-        service.createPurchasePrice(purchasePrice);
-        service.createUserLotto(purchasePrice);
-        outputView.printUserLotto(service.getUserLottoDto());
+        try {
+            int purchasePrice = inputValidator.convertStringToInt(inputView.readPurchasePrice());
+            service.createPurchasePrice(purchasePrice);
+            service.createUserLotto(purchasePrice);
+            outputView.printUserLotto(service.getUserLottoDto());
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            buyLotto();
+        }
     }
 
     private void drawLotto() {
-        List<Integer> winningLotto = Arrays.stream(inputView.readWinningLotto().split(","))
-                .map(input -> inputValidator.convertStringToInt(input.trim()))
-                .toList();
-        int bonusNumber = inputValidator.convertStringToInt(inputView.readBonusNumber());
-        service.createWinningLotto(winningLotto, bonusNumber);
-        service.draw();
-        outputView.printResult(service.getResultDto());
+        try {
+            List<Integer> winningLotto = Arrays.stream(inputView.readWinningLotto().split(","))
+                    .map(input -> inputValidator.convertStringToInt(input.trim()))
+                    .toList();
+            int bonusNumber = inputValidator.convertStringToInt(inputView.readBonusNumber());
+            service.createWinningLotto(winningLotto, bonusNumber);
+            service.draw();
+            outputView.printResult(service.getResultDto());
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            drawLotto();
+        }
     }
 }

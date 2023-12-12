@@ -24,6 +24,10 @@ public class OutputView {
         return OutputViewHolder.outputView;
     }
 
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+
     public void printUserLotto(List<LottoDto> userLottoDto) {
         System.out.println();
         System.out.println(String.format(OutputMessage.PURCHASER_COUNT.getMessage(), userLottoDto.size()));
