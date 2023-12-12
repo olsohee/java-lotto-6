@@ -45,4 +45,18 @@ public class Lotto {
     public List<Integer> getNumbers() {
         return numbers;
     }
+
+    public int getWinningResult(WinningLotto winningLotto) {
+        return winningLotto.getWinningMatchCount(numbers);
+    }
+
+    public boolean getBonusResult(WinningLotto winningLotto) {
+        return winningLotto.getBonusResult(numbers);
+    }
+
+    public int getWinningMatchCount(List<Integer> userNumbers) {
+        return (int) userNumbers.stream()
+                .filter(userNumber -> numbers.contains(userNumber))
+                .count();
+    }
 }

@@ -1,5 +1,7 @@
 package lotto.domain;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
 public class UserLotto {
@@ -12,5 +14,12 @@ public class UserLotto {
 
     public List<Lotto> getUserLotto() {
         return userLotto;
+    }
+
+    public List<Result> draw(WinningLotto winningLotto) {
+        List<Result> results = new ArrayList<>();
+        userLotto.stream()
+                .forEach(lotto -> results.add(Result.getResult(lotto, winningLotto)));
+        return results;
     }
 }

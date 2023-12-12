@@ -1,20 +1,24 @@
 package lotto.service;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import lotto.domain.Lotto;
-import lotto.domain.PurchasePrice;
-import lotto.domain.UserLotto;
-import lotto.domain.WinningLotto;
+import lotto.domain.*;
 import lotto.dto.LottoDto;
+import lotto.dto.ResultDto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Service {
 
     private PurchasePrice purchasePrice;
     private UserLotto userLotto;
     private WinningLotto winningLotto;
+    private EnumMap<Result, Integer> results = new EnumMap<>(Result.class);
+
+    public Service() {
+        for (Result result : Result.values()) {
+            results.put(result, 0);
+        }
+    }
 
     public void createPurchasePrice(int purchasePrice) {
         this.purchasePrice = new PurchasePrice(purchasePrice);
@@ -39,6 +43,20 @@ public class Service {
     }
 
     public void draw() {
+        userLotto.draw(winningLotto).stream()
+                .forEach(result -> results.put(result, results.get(result) + 1));
+    }
 
+    public ResultDto getResultDto() {
+        results.remove(Result.FAIL);
+        return new ResultDto(results, calculateReturnRate(results));
+    }
+
+    private double calculateReturnRate(EnumMap<Result, Integer> resultMap) {
+        int totalProfitAmount = 0;
+        for (Result key : resultMap.keySet()) {
+            totalProfitAmount += resultMap.get(key) * key.getProfitAmount();
+        }
+        return (((double) totalProfitAmount) / purchasePrice.getPurchasePrice()) * 100;
     }
 }

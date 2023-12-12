@@ -25,11 +25,13 @@ public class InputView {
     }
 
     public String readWinningLotto() {
+        System.out.println();
         System.out.println(READ_WINNING_LOTTO);
         return Console.readLine();
     }
 
     public String readBonusNumber() {
+        System.out.println();
         System.out.println(READ_BONUS_NUMBER);
         return Console.readLine();
     }

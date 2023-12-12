@@ -41,5 +41,6 @@ public class Controller {
         int bonusNumber = inputValidator.convertStringToInt(inputView.readBonusNumber());
         service.createWinningLotto(winningLotto, bonusNumber);
         service.draw();
+        outputView.printResult(service.getResultDto());
     }
 }

@@ -6,12 +6,12 @@ import java.util.List;
 
 public class WinningLotto {
 
-    private final Lotto answerLotto;
+    private final Lotto winningLotto;
     private final int bonusNumber;
 
     public WinningLotto(List<Integer> winningLotto, int bonusNumber) {
         validate(winningLotto, bonusNumber);
-        this.answerLotto = new Lotto(winningLotto);
+        this.winningLotto = new Lotto(winningLotto);
         this.bonusNumber = bonusNumber;
     }
 
@@ -32,5 +32,13 @@ public class WinningLotto {
         if (bonusNumber < 1 || bonusNumber > 45) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_RANGE.getErrorMessage());
         }
+    }
+
+    public int getWinningMatchCount(List<Integer> userNumbers) {
+        return winningLotto.getWinningMatchCount(userNumbers);
+    }
+
+    public boolean getBonusResult(List<Integer> userNumbers) {
+        return userNumbers.contains(bonusNumber);
     }
 }

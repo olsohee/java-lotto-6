@@ -16,4 +16,8 @@ public class PurchasePrice {
             throw new IllegalArgumentException(ErrorMessage.INVALID_PURCHASE_PRICE_UNIT.getErrorMessage());
         }
     }
+
+    public int getPurchasePrice() {
+        return purchasePrice;
+    }
 }
