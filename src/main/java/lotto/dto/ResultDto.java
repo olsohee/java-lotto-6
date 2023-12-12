@@ -1,22 +1,21 @@
 package lotto.dto;
 
-import lotto.domain.Result;
+import lotto.domain.Ranking;
 
 import java.util.EnumMap;
-import java.util.Map;
 
 public class ResultDto {
 
-    private final EnumMap<Result, Integer> results;
+    private final EnumMap<Ranking, Integer> rankings;
     private final double returnRate;
 
-    public ResultDto(EnumMap<Result, Integer> results, double returnRate) {
-        this.results = results;
+    public ResultDto(EnumMap<Ranking, Integer> rankings, double returnRate) {
+        this.rankings = rankings;
         this.returnRate = returnRate;
     }
 
-    public EnumMap<Result, Integer> getResults() {
-        return results;
+    public EnumMap<Ranking, Integer> getRankings() {
+        return rankings;
     }
 
     public double getReturnRate() {

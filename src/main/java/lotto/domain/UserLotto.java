@@ -15,10 +15,10 @@ public class UserLotto {
         return userLotto;
     }
 
-    public List<Result> draw(WinningLotto winningLotto) {
-        List<Result> results = new ArrayList<>();
+    public List<Ranking> draw(WinningLotto winningLotto) {
+        List<Ranking> rankings = new ArrayList<>();
         userLotto.stream()
-                .forEach(lotto -> results.add(Result.getResult(lotto, winningLotto)));
-        return results;
+                .forEach(lotto -> rankings.add(Ranking.getResult(lotto, winningLotto)));
+        return rankings;
     }
 }

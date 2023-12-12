@@ -3,7 +3,7 @@ package lotto.domain;
 import java.util.Arrays;
 import java.util.function.BiPredicate;
 
-public enum Result {
+public enum Ranking {
 
     FAIL("탈락",
             (lotto, winningLotto) -> lotto.getWinningResult(winningLotto) == 0,
@@ -29,17 +29,17 @@ public enum Result {
     private final BiPredicate<Lotto, WinningLotto> isApplicable;
     private final int profitAmount;
 
-    Result(String message, BiPredicate<Lotto, WinningLotto> isApplicable, int profitAmount) {
+    Ranking(String message, BiPredicate<Lotto, WinningLotto> isApplicable, int profitAmount) {
         this.message = message;
         this.isApplicable = isApplicable;
         this.profitAmount = profitAmount;
     }
 
-    public static Result getResult(Lotto lotto, WinningLotto winningLotto) {
-        return Arrays.stream(Result.values())
+    public static Ranking getResult(Lotto lotto, WinningLotto winningLotto) {
+        return Arrays.stream(Ranking.values())
                 .filter(result -> result.isApplicable.test(lotto, winningLotto))
                 .findAny()
-                .orElse(Result.FAIL);
+                .orElse(Ranking.FAIL);
     }
 
     public int getProfitAmount() {

@@ -53,7 +53,7 @@ public class Controller {
     }
 
     private void drawLotto() {
-        service.draw();
+        service.generateWinningResult();
         outputView.printResult(service.getResultDto());
     }
 }

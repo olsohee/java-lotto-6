@@ -1,17 +1,14 @@
 package lotto.view;
 
-import lotto.domain.Result;
+import lotto.domain.Ranking;
 import lotto.dto.LottoDto;
 import lotto.dto.ResultDto;
 import lotto.message.OutputMessage;
 
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 public class OutputView {
-
-    private static final String DELIMITER = ", ";
 
     private OutputView() {
     }
@@ -34,7 +31,7 @@ public class OutputView {
         userLottoDto.stream()
                 .forEach(lottoDto -> System.out.println(String.format(
                         OutputMessage.USER_LOTTO.getMessage(),
-                        String.join(DELIMITER, lottoDto.getLotto())))
+                        String.join(OutputMessage.DELIMITER.getMessage(), lottoDto.getLotto())))
                 );
     }
 
@@ -42,10 +39,10 @@ public class OutputView {
         System.out.println();
         System.out.println(OutputMessage.PRINT_RESULT_MESSAGE.getMessage());
 
-        EnumMap<Result, Integer> results = resultDto.getResults();
-        for (Result result : results.keySet()) {
+        EnumMap<Ranking, Integer> results = resultDto.getRankings();
+        for (Ranking ranking : results.keySet()) {
             System.out.println(String.format(
-                    OutputMessage.RESULT.getMessage(), result.getMessage(), results.get(result)));
+                    OutputMessage.RESULT.getMessage(), ranking.getMessage(), results.get(ranking)));
         }
 
         System.out.println(String.format(

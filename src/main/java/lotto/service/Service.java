@@ -7,28 +7,20 @@ import lotto.dto.ResultDto;
 
 import java.util.*;
 
-public class Service {
+import static lotto.domain.LottoCondition.*;
 
-    private static final int MIN_LOTTO_NUMBER = 1;
-    private static final int MAX_LOTTO_NUMBER = 45;
-    private static final int LOTTO_NUMBER_COUNT = 6;
+public class Service {
     private PurchasePrice purchasePrice;
     private UserLotto userLotto;
     private WinningLotto winningLotto;
-    private EnumMap<Result, Integer> results = new EnumMap<>(Result.class);
-
-    public Service() {
-        for (Result result : Result.values()) {
-            results.put(result, 0);
-        }
-    }
+    private WinningResult winningResult;
 
     public void buyUserLotto(int purchasePrice) {
         this.purchasePrice = new PurchasePrice(purchasePrice);
 
         List<Lotto> userLotto = new ArrayList<>();
         while (userLotto.size() < purchasePrice / LottoCondition.LOTTO_PRICE.getValue()) {
-            userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER, LOTTO_NUMBER_COUNT)));
+            userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(MIN_NUMBER.getValue(), MAX_NUMBER.getValue(), LOTTO_NUMBER_COUNT.getValue())));
         }
         this.userLotto = new UserLotto(userLotto);
     }
@@ -37,9 +29,8 @@ public class Service {
         this.winningLotto = new WinningLotto(winningLotto, bonusNUmber);
     }
 
-    public void draw() {
-        userLotto.draw(winningLotto).stream()
-                .forEach(result -> results.put(result, results.get(result) + 1));
+    public void generateWinningResult() {
+        this.winningResult = new WinningResult(userLotto, winningLotto, purchasePrice);
     }
 
     public List<LottoDto> getUserLottoDto() {
@@ -49,15 +40,6 @@ public class Service {
     }
 
     public ResultDto getResultDto() {
-        results.remove(Result.FAIL);
-        return new ResultDto(results, calculateReturnRate(results));
-    }
-
-    private double calculateReturnRate(EnumMap<Result, Integer> resultMap) {
-        int totalProfitAmount = 0;
-        for (Result key : resultMap.keySet()) {
-            totalProfitAmount += resultMap.get(key) * key.getProfitAmount();
-        }
-        return (((double) totalProfitAmount) / purchasePrice.getPurchasePrice()) * 100;
+        return new ResultDto(winningResult.getRankings(), winningResult.getReturnRate());
     }
 }
