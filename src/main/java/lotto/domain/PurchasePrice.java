@@ -4,7 +4,7 @@ import lotto.message.ErrorMessage;
 
 public class PurchasePrice {
 
-    private int purchasePrice;
+    private final int purchasePrice;
 
     public PurchasePrice(int purchasePrice) {
         validate(purchasePrice);

@@ -26,6 +26,6 @@ public class Controller {
     private void buyLotto() {
         int purchasePrice = inputValidator.convertStringToInt(inputView.readPurchasePrice());
         service.createPurchasePrice(purchasePrice);
-        service.createWinningLotto();
+        service.createUserLotto(purchasePrice);
     }
 }
