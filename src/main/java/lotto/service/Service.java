@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Randoms;
 import lotto.domain.Lotto;
 import lotto.domain.PurchasePrice;
 import lotto.domain.UserLotto;
+import lotto.dto.LottoDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +24,11 @@ public class Service {
             userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(1, 45, 6)));
         }
         this.userLotto = new UserLotto(userLotto);
+    }
+
+    public List<LottoDto> getUserLottoDto() {
+        return userLotto.getUserLotto().stream()
+                .map(lotto -> new LottoDto(lotto.getNumbers()))
+                .toList();
     }
 }

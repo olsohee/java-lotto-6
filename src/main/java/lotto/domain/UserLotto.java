@@ -9,4 +9,8 @@ public class UserLotto {
     public UserLotto(List<Lotto> userLotto) {
         this.userLotto = userLotto;
     }
+
+    public List<Lotto> getUserLotto() {
+        return userLotto;
+    }
 }
