@@ -4,11 +4,9 @@ import lotto.message.ErrorMessage;
 
 import java.util.List;
 
-public class Lotto {
+import static lotto.domain.LottoCondition.*;
 
-    private static final int MIN_LOTTO_NUMBER = 1;
-    private static final int MAX_LOTTO_NUMBER = 45;
-    private static final int LOTTO_NUMBER_COUNT = 6;
+public class Lotto {
     private final List<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
@@ -23,7 +21,7 @@ public class Lotto {
     }
 
     private void validateCount(List<Integer> numbers) {
-        if (numbers.size() != LOTTO_NUMBER_COUNT) {
+        if (numbers.size() != LOTTO_NUMBER_COUNT.getValue()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_COUNT.getErrorMessage());
         }
     }
@@ -40,7 +38,7 @@ public class Lotto {
     private void validateRange(List<Integer> numbers) {
         numbers.stream()
                 .forEach(number -> {
-                    if (number < MIN_LOTTO_NUMBER || number > MAX_LOTTO_NUMBER) {
+                    if (number < MIN_NUMBER.getValue() || number > MAX_NUMBER.getValue()) {
                         throw new IllegalArgumentException(ErrorMessage.INVALID_RANGE.getErrorMessage());
                     }
                 });

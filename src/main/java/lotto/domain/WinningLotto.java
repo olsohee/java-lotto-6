@@ -4,10 +4,9 @@ import lotto.message.ErrorMessage;
 
 import java.util.List;
 
-public class WinningLotto {
+import static lotto.domain.LottoCondition.*;
 
-    private static final int MIN_LOTTO_NUMBER = 1;
-    private static final int MAX_LOTTO_NUMBER = 45;
+public class WinningLotto {
     private final Lotto winningLotto;
     private final int bonusNumber;
 
@@ -31,7 +30,7 @@ public class WinningLotto {
     }
 
     private void validateRange(int bonusNumber) {
-        if (bonusNumber < MIN_LOTTO_NUMBER || bonusNumber > MAX_LOTTO_NUMBER) {
+        if (bonusNumber < MIN_NUMBER.getValue() || bonusNumber > MAX_NUMBER.getValue()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_RANGE.getErrorMessage());
         }
     }

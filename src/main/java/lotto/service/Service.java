@@ -27,7 +27,7 @@ public class Service {
         this.purchasePrice = new PurchasePrice(purchasePrice);
 
         List<Lotto> userLotto = new ArrayList<>();
-        while (userLotto.size() < purchasePrice) {
+        while (userLotto.size() < purchasePrice / LottoCondition.LOTTO_PRICE.getValue()) {
             userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER, LOTTO_NUMBER_COUNT)));
         }
         this.userLotto = new UserLotto(userLotto);

@@ -2,6 +2,8 @@ package lotto.domain;
 
 import lotto.message.ErrorMessage;
 
+import static lotto.domain.LottoCondition.LOTTO_PRICE;
+
 public class PurchasePrice {
 
     private final int purchasePrice;
@@ -12,7 +14,7 @@ public class PurchasePrice {
     }
 
     private void validate(int purchasePrice) {
-        if (purchasePrice % 1000 != 0) {
+        if (purchasePrice % LOTTO_PRICE.getValue() != 0) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_PURCHASE_PRICE_UNIT.getErrorMessage());
         }
     }
