@@ -24,14 +24,14 @@ public class Controller {
 
     public void start() {
         buyLotto();
+        generateWinningLotto();
         drawLotto();
     }
 
     private void buyLotto() {
         try {
             int purchasePrice = inputValidator.convertStringToInt(inputView.readPurchasePrice());
-            service.createPurchasePrice(purchasePrice);
-            service.createUserLotto(purchasePrice);
+            service.buyUserLotto(purchasePrice);
             outputView.printUserLotto(service.getUserLottoDto());
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
@@ -39,18 +39,21 @@ public class Controller {
         }
     }
 
-    private void drawLotto() {
+    private void generateWinningLotto() {
         try {
             List<Integer> winningLotto = Arrays.stream(inputView.readWinningLotto().split(","))
                     .map(input -> inputValidator.convertStringToInt(input.trim()))
                     .toList();
             int bonusNumber = inputValidator.convertStringToInt(inputView.readBonusNumber());
-            service.createWinningLotto(winningLotto, bonusNumber);
-            service.draw();
-            outputView.printResult(service.getResultDto());
+            service.generateWinningLotto(winningLotto, bonusNumber);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
-            drawLotto();
+            generateWinningLotto();
         }
+    }
+
+    private void drawLotto() {
+        service.draw();
+        outputView.printResult(service.getResultDto());
     }
 }

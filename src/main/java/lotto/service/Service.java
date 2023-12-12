@@ -9,6 +9,9 @@ import java.util.*;
 
 public class Service {
 
+    private static final int MIN_LOTTO_NUMBER = 1;
+    private static final int MAX_LOTTO_NUMBER = 45;
+    private static final int LOTTO_NUMBER_COUNT = 6;
     private PurchasePrice purchasePrice;
     private UserLotto userLotto;
     private WinningLotto winningLotto;
@@ -20,31 +23,29 @@ public class Service {
         }
     }
 
-    public void createPurchasePrice(int purchasePrice) {
+    public void buyUserLotto(int purchasePrice) {
         this.purchasePrice = new PurchasePrice(purchasePrice);
-    }
 
-    public void createUserLotto(int purchasePrice) {
         List<Lotto> userLotto = new ArrayList<>();
-        for (int i = 0; i < purchasePrice / 1000; i++) {
-            userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(1, 45, 6)));
+        while (userLotto.size() < purchasePrice) {
+            userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER, LOTTO_NUMBER_COUNT)));
         }
         this.userLotto = new UserLotto(userLotto);
     }
 
-    public List<LottoDto> getUserLottoDto() {
-        return userLotto.getUserLotto().stream()
-                .map(lotto -> new LottoDto(lotto.getNumbers()))
-                .toList();
-    }
-
-    public void createWinningLotto(List<Integer> winningLotto, int bonusNUmber) {
+    public void generateWinningLotto(List<Integer> winningLotto, int bonusNUmber) {
         this.winningLotto = new WinningLotto(winningLotto, bonusNUmber);
     }
 
     public void draw() {
         userLotto.draw(winningLotto).stream()
                 .forEach(result -> results.put(result, results.get(result) + 1));
+    }
+
+    public List<LottoDto> getUserLottoDto() {
+        return userLotto.getUserLotto().stream()
+                .map(lotto -> new LottoDto(lotto.getNumbers()))
+                .toList();
     }
 
     public ResultDto getResultDto() {

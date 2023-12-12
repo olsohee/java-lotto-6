@@ -5,6 +5,10 @@ import lotto.message.ErrorMessage;
 import java.util.List;
 
 public class Lotto {
+
+    private static final int MIN_LOTTO_NUMBER = 1;
+    private static final int MAX_LOTTO_NUMBER = 45;
+    private static final int LOTTO_NUMBER_COUNT = 6;
     private final List<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
@@ -14,17 +18,17 @@ public class Lotto {
 
     private void validate(List<Integer> numbers) {
         validateCount(numbers);
-        validateDuplicate(numbers);
+        validateDuplicated(numbers);
         validateRange(numbers);
     }
 
     private void validateCount(List<Integer> numbers) {
-        if (numbers.size() != 6) {
+        if (numbers.size() != LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_COUNT.getErrorMessage());
         }
     }
 
-    private void validateDuplicate(List<Integer> numbers) {
+    private void validateDuplicated(List<Integer> numbers) {
         long nonDuplicatedCount = numbers.stream()
                 .distinct()
                 .count();
@@ -36,14 +40,10 @@ public class Lotto {
     private void validateRange(List<Integer> numbers) {
         numbers.stream()
                 .forEach(number -> {
-                    if (number < 1 || number > 45) {
+                    if (number < MIN_LOTTO_NUMBER || number > MAX_LOTTO_NUMBER) {
                         throw new IllegalArgumentException(ErrorMessage.INVALID_RANGE.getErrorMessage());
                     }
                 });
-    }
-
-    public List<Integer> getNumbers() {
-        return numbers;
     }
 
     public int getWinningResult(WinningLotto winningLotto) {
@@ -51,12 +51,16 @@ public class Lotto {
     }
 
     public boolean getBonusResult(WinningLotto winningLotto) {
-        return winningLotto.getBonusResult(numbers);
+        return winningLotto.isMatchWithBonusNumber(numbers);
     }
 
-    public int getWinningMatchCount(List<Integer> userNumbers) {
+    public int getMatchCount(List<Integer> userNumbers) {
         return (int) userNumbers.stream()
                 .filter(userNumber -> numbers.contains(userNumber))
                 .count();
+    }
+
+    public List<Integer> getNumbers() {
+        return numbers;
     }
 }

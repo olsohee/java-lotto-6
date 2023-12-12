@@ -6,6 +6,8 @@ import java.util.List;
 
 public class WinningLotto {
 
+    private static final int MIN_LOTTO_NUMBER = 1;
+    private static final int MAX_LOTTO_NUMBER = 45;
     private final Lotto winningLotto;
     private final int bonusNumber;
 
@@ -29,16 +31,16 @@ public class WinningLotto {
     }
 
     private void validateRange(int bonusNumber) {
-        if (bonusNumber < 1 || bonusNumber > 45) {
+        if (bonusNumber < MIN_LOTTO_NUMBER || bonusNumber > MAX_LOTTO_NUMBER) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_RANGE.getErrorMessage());
         }
     }
 
     public int getWinningMatchCount(List<Integer> userNumbers) {
-        return winningLotto.getWinningMatchCount(userNumbers);
+        return winningLotto.getMatchCount(userNumbers);
     }
 
-    public boolean getBonusResult(List<Integer> userNumbers) {
+    public boolean isMatchWithBonusNumber(List<Integer> userNumbers) {
         return userNumbers.contains(bonusNumber);
     }
 }
