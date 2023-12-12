@@ -1,4 +1,4 @@
-package lotto.validator;
+package lotto.convertor;
 
 
 import lotto.message.ErrorMessage;
@@ -6,20 +6,20 @@ import lotto.message.ErrorMessage;
 import java.util.Arrays;
 import java.util.List;
 
-public class InputValidator {
+public class InputConvertor {
 
-    private InputValidator() {
+    private InputConvertor() {
     }
 
-    private static class InputValidatorHolder {
-        private static InputValidator inputValidator = new InputValidator();
+    private static class InputConvertorHolder {
+        private static InputConvertor inputConvertor = new InputConvertor();
     }
 
-    public static InputValidator getInstance() {
-        return InputValidatorHolder.inputValidator;
+    public static InputConvertor getInstance() {
+        return InputConvertorHolder.inputConvertor;
     }
 
-    public int convertStringToInt(String input) {
+    public int convertToInt(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -29,7 +29,7 @@ public class InputValidator {
 
     public List<Integer> getWinningLotto(String input) {
         return Arrays.stream(input.split(","))
-                .map(inputNumber -> convertStringToInt(inputNumber))
+                .map(inputNumber -> convertToInt(inputNumber))
                 .toList();
     }
 }

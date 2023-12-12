@@ -1,7 +1,7 @@
 package lotto.controller;
 
 import lotto.service.Service;
-import lotto.validator.InputValidator;
+import lotto.convertor.InputConvertor;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -11,13 +11,13 @@ import java.util.List;
 public class Controller {
 
     private final InputView inputView;
-    private final InputValidator inputValidator;
+    private final InputConvertor inputConvertor;
     private final OutputView outputView;
     private final Service service;
 
-    public Controller(InputView inputView, InputValidator inputValidator, OutputView outputView, Service service) {
+    public Controller(InputView inputView, InputConvertor inputConvertor, OutputView outputView, Service service) {
         this.inputView = inputView;
-        this.inputValidator = inputValidator;
+        this.inputConvertor = inputConvertor;
         this.outputView = outputView;
         this.service = service;
     }
@@ -30,7 +30,7 @@ public class Controller {
 
     private void buyLotto() {
         try {
-            int purchasePrice = inputValidator.convertStringToInt(inputView.readPurchasePrice());
+            int purchasePrice = inputConvertor.convertToInt(inputView.readPurchasePrice());
             service.buyUserLotto(purchasePrice);
             outputView.printUserLotto(service.getUserLottoDto());
         } catch (IllegalArgumentException e) {
@@ -42,9 +42,9 @@ public class Controller {
     private void generateWinningLotto() {
         try {
             List<Integer> winningLotto = Arrays.stream(inputView.readWinningLotto().split(","))
-                    .map(input -> inputValidator.convertStringToInt(input.trim()))
+                    .map(input -> inputConvertor.convertToInt(input.trim()))
                     .toList();
-            int bonusNumber = inputValidator.convertStringToInt(inputView.readBonusNumber());
+            int bonusNumber = inputConvertor.convertToInt(inputView.readBonusNumber());
             service.generateWinningLotto(winningLotto, bonusNumber);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
