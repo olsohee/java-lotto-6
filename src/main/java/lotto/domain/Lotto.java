@@ -4,7 +4,7 @@ import lotto.message.ErrorMessage;
 
 import java.util.List;
 
-import static lotto.domain.LottoCondition.*;
+import static lotto.constant.LottoCondition.*;
 
 public class Lotto {
     private final List<Integer> numbers;
@@ -50,18 +50,14 @@ public class Lotto {
                 .toList();
     }
 
-    public int getWinningResult(WinningLotto winningLotto) {
-        return winningLotto.getWinningMatchCount(numbers);
-    }
-
-    public boolean getBonusResult(WinningLotto winningLotto) {
-        return winningLotto.isMatchWithBonusNumber(numbers);
-    }
-
-    public int getMatchCount(List<Integer> userNumbers) {
-        return (int) userNumbers.stream()
-                .filter(userNumber -> numbers.contains(userNumber))
+    public int getWinningResult(Lotto winningLotto) {
+        return (int) this.numbers.stream()
+                .filter(number -> winningLotto.numbers.contains(number))
                 .count();
+    }
+
+    public boolean getBonusResult(BonusNumber bonusNumber) {
+        return bonusNumber.isContain(numbers);
     }
 
     public List<Integer> getNumbers() {

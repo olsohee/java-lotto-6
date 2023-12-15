@@ -7,34 +7,36 @@ import lotto.dto.ResultDto;
 
 import java.util.*;
 
-import static lotto.domain.LottoCondition.*;
+import static lotto.constant.LottoCondition.*;
 
 public class Service {
     private PurchasePrice purchasePrice;
-    private UserLotto userLotto;
-    private WinningLotto winningLotto;
+    private Lottos userLottos = new Lottos();
+    private Lotto winningLotto;
+    private BonusNumber bonusNumber;
     private WinningResult winningResult;
 
     public void buyUserLotto(int purchasePrice) {
         this.purchasePrice = new PurchasePrice(purchasePrice);
 
-        List<Lotto> userLotto = new ArrayList<>();
-        while (userLotto.size() < purchasePrice / LottoCondition.LOTTO_PRICE.getValue()) {
-            userLotto.add(new Lotto(Randoms.pickUniqueNumbersInRange(MIN_NUMBER.getValue(), MAX_NUMBER.getValue(), LOTTO_NUMBER_COUNT.getValue())));
+        int count = purchasePrice / LOTTO_PRICE.getValue();
+        for (int i = 0; i < count; i++) {
+            Lotto lotto = new Lotto(Randoms.pickUniqueNumbersInRange(MIN_NUMBER.getValue(), MAX_NUMBER.getValue(), LOTTO_NUMBER_COUNT.getValue()));
+            userLottos.addLotto(lotto);
         }
-        this.userLotto = new UserLotto(userLotto);
     }
 
-    public void generateWinningLotto(List<Integer> winningLotto, int bonusNUmber) {
-        this.winningLotto = new WinningLotto(winningLotto, bonusNUmber);
+    public void generateWinningLotto(List<Integer> winningLotto, int bonusNumber) {
+        this.winningLotto = new Lotto(winningLotto);
+        this.bonusNumber = new BonusNumber(bonusNumber);
     }
 
     public void generateWinningResult() {
-        this.winningResult = new WinningResult(userLotto, winningLotto, purchasePrice);
+        this.winningResult = new WinningResult(userLottos, winningLotto, bonusNumber, purchasePrice);
     }
 
     public List<LottoDto> getUserLottoDto() {
-        return userLotto.getUserLotto().stream()
+        return userLottos.getLottos().stream()
                 .map(lotto -> new LottoDto(lotto.getNumbers()))
                 .toList();
     }

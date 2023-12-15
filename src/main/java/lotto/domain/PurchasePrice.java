@@ -2,7 +2,7 @@ package lotto.domain;
 
 import lotto.message.ErrorMessage;
 
-import static lotto.domain.LottoCondition.LOTTO_PRICE;
+import static lotto.constant.LottoCondition.LOTTO_PRICE;
 
 public class PurchasePrice {
 

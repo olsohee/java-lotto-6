@@ -8,16 +8,16 @@ public class WinningResult {
     private EnumMap<Ranking, Integer> rankings = new EnumMap<>(Ranking.class);
     private double returnRate;
 
-    public WinningResult(UserLotto userLotto, WinningLotto winningLotto, PurchasePrice purchasePrice) {
-        setRankings(userLotto, winningLotto);
+    public WinningResult(Lottos userLottos, Lotto winningLotto, BonusNumber bonusNumber, PurchasePrice purchasePrice) {
+        setRankings(userLottos, winningLotto, bonusNumber);
         setReturnRate(purchasePrice);
     }
 
-    private void setRankings(UserLotto userLotto, WinningLotto winningLotto) {
+    private void setRankings(Lottos lottos, Lotto winningLotto, BonusNumber bonusNumber) {
         Arrays.stream(Ranking.values())
                 .forEach(ranking -> rankings.put(ranking, 0));
 
-        userLotto.draw(winningLotto).stream()
+        lottos.draw(winningLotto, bonusNumber).stream()
                 .forEach(result -> rankings.put(result, rankings.get(result) + 1));
     }
 
